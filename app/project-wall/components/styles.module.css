@@ -1,0 +1,22 @@
+.imageCard {
+  background-color: white;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.imageCardNameTag {
+    margin-top: 1.25rem;
+    font-size: 1.5rem;
+    line-height: 2rem;
+    font-weight: 600;
+    color:rgb(58, 58, 58);
+}
+
+.imageCardTimeTag {
+    font-size: 1rem;
+    line-height: 1.5rem;
+    font-weight: 300;
+    color:rgb(58, 58, 58);
+}
