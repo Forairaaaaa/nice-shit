@@ -6,6 +6,11 @@
   align-items: flex-end;
 }
 
+.imageCardImage {
+    max-height: 600px;
+}
+
+
 .imageCardNameTag {
     margin-top: 1.25rem;
     font-size: 1.5rem;

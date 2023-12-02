@@ -3,9 +3,9 @@
 @tailwind utilities;
 
 .background-project-wall {
-  background-image: url("https://images.unsplash.com/photo-1699134115052-bd7899efddcc?q=80&w=2565&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
+  background-image: url("https://images.unsplash.com/photo-1699134115052-bd7899efddcc");
   min-height: 100vh;
-  background-attachment: scroll;
+  background-attachment: fixed;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -14,7 +14,7 @@
 .background-noise-filter {
   background-image: url("/bg-noise.svg");
   min-height: 100vh;
-  background-attachment: scroll;
+  background-attachment: fixed;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
