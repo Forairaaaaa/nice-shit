@@ -48,7 +48,7 @@ export default function PageGalleryWall() {
             herf: props.herf,
           });
 
-          console.log(result);
+          // console.log(result);
           setConfig(result);
         });
       });
