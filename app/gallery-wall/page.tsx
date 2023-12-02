@@ -6,12 +6,12 @@ import styles from "./styles.module.css";
 interface GalleryWallConfig {
   backgroudImage: string;
   randomOrder: boolean;
-  pictureList: FramedPictureProps[];
+  picturePropsList: FramedPictureProps[];
 }
 
 async function getGalleryWallConfigFromFs() {
   const file = await fs.readFile(
-    process.cwd() + "/public/gallery-wall/gallery-wall-props.json",
+    process.cwd() + "/public/gallery-wall/gallery-wall-config.json",
     "utf-8"
   );
   const data = JSON.parse(file);
@@ -19,11 +19,11 @@ async function getGalleryWallConfigFromFs() {
   let result: GalleryWallConfig = {
     backgroudImage: "",
     randomOrder: false,
-    pictureList: [],
+    picturePropsList: [],
   };
 
   // Background image
-  if (data.backgroudImage != "") {
+  if (data.backgroudImage != "" && data.backgroudImage) {
     result.backgroudImage = data.backgroudImage;
   }
 
@@ -32,12 +32,13 @@ async function getGalleryWallConfigFromFs() {
     result.randomOrder = data.randomOrder;
   }
 
-  // Picture list
+  // Picture props list
   (data.pictureList as FramedPictureProps[]).forEach((props) => {
-    result.pictureList.push({
+    result.picturePropsList.push({
       imageSrc: props.imageSrc,
       nameTag: props.nameTag,
       timeTag: props.timeTag,
+      herf: props.herf,
     });
   });
 
@@ -56,9 +57,8 @@ export default async function PageGalleryWall() {
     }
     return array;
   };
-
   if (config.randomOrder) {
-    config.pictureList = shuffle(config.pictureList);
+    config.picturePropsList = shuffle(config.picturePropsList);
   }
 
   return (
@@ -68,7 +68,7 @@ export default async function PageGalleryWall() {
       }
     >
       <div className={styles.backgroundNoiseFilter}>
-        <GalleryWall picturePropsList={config.pictureList}></GalleryWall>
+        <GalleryWall picturePropsList={config.picturePropsList}></GalleryWall>
       </div>
     </div>
   );

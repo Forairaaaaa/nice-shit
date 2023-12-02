@@ -12,6 +12,7 @@ export interface FramedPictureProps {
   nameTag: string;
   timeTag: string;
   rotate?: number;
+  herf?: string;
 }
 
 export default function FramedPicture(props: FramedPictureProps) {
@@ -35,11 +36,17 @@ export default function FramedPicture(props: FramedPictureProps) {
         bottom: 0,
       }}
     >
-      <img
+      <motion.img
         src={props.imageSrc}
         alt={"image about " + props.nameTag}
         className={styles.framedPictureImage}
-      ></img>
+        onClick={props.onClick}
+        whileInView={{ scale: 1 }}
+        transition={{ type: "spring", stiffness: 200, damping: 20, mass: 1 }}
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 1 }}
+      >
+      </motion.img>
 
       {props.nameTag != "" && (
         <h1

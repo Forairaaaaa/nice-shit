@@ -1,3 +1,5 @@
+"use client";
+
 import FramedPicture, { FramedPictureProps } from "./framed-picture";
 
 interface GalleryWallProps {
@@ -14,6 +16,12 @@ export default function GalleryWall(props: GalleryWallProps) {
           nameTag={props.nameTag}
           timeTag={props.timeTag}
           rotate={props.rotate}
+          onClick={() => {
+            // Redirect
+            if (props.herf != "" && props.herf) {
+              location.href = props.herf;
+            }
+          }}
         ></FramedPicture>
       ))}
     </div>
