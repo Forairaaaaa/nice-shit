@@ -41,13 +41,21 @@ export default function FramedPicture(props: FramedPictureProps) {
         className={styles.framedPictureImage}
       ></img>
 
-      <h1 className={nameTagFont.className + " " + styles.framedPictureNameTag}>
-        {props.nameTag}
-      </h1>
+      {props.nameTag != "" && (
+        <h1
+          className={nameTagFont.className + " " + styles.framedPictureNameTag}
+        >
+          {props.nameTag}
+        </h1>
+      )}
 
-      <p className={nameTagFont.className + " " + styles.framedPictureTimeTag}>
-        {props.timeTag}
-      </p>
+      {props.timeTag != "" && (
+        <p
+          className={nameTagFont.className + " " + styles.framedPictureTimeTag}
+        >
+          {props.timeTag}
+        </p>
+      )}
     </motion.div>
   );
 }

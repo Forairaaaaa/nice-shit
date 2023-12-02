@@ -8,11 +8,11 @@
 
 .framedPictureImage {
     max-height: 300px;
+    margin-bottom: 1.25rem;
 }
 
 
 .framedPictureNameTag {
-    margin-top: 1.25rem;
     font-size: 1.5rem;
     line-height: 2rem;
     font-weight: 600;
