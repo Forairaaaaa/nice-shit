@@ -1,4 +1,4 @@
-.imageCard {
+.framedPicture {
   background-color: white;
   padding: 1.25rem;
   display: flex;
@@ -6,12 +6,12 @@
   align-items: flex-end;
 }
 
-.imageCardImage {
-    max-height: 600px;
+.framedPictureImage {
+    max-height: 300px;
 }
 
 
-.imageCardNameTag {
+.framedPictureNameTag {
     margin-top: 1.25rem;
     font-size: 1.5rem;
     line-height: 2rem;
@@ -19,7 +19,7 @@
     color:rgb(58, 58, 58);
 }
 
-.imageCardTimeTag {
+.framedPictureTimeTag {
     font-size: 1rem;
     line-height: 1.5rem;
     font-weight: 300;
