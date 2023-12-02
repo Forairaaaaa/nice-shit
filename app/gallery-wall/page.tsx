@@ -1,7 +1,9 @@
-import { promises as fs } from "fs";
+"use client";
+
 import { FramedPictureProps } from "./components/framed-picture";
 import GalleryWall from "./components/gallery-wall";
 import styles from "./styles.module.css";
+import { useState, useEffect } from "react";
 
 interface GalleryWallConfig {
   backgroudImage: string;
@@ -9,45 +11,51 @@ interface GalleryWallConfig {
   picturePropsList: FramedPictureProps[];
 }
 
-async function getGalleryWallConfigFromFs() {
-  const file = await fs.readFile(
-    process.cwd() + "/public/gallery-wall/gallery-wall-config.json",
-    "utf-8"
-  );
-  const data = JSON.parse(file);
-
-  let result: GalleryWallConfig = {
+export default function PageGalleryWall() {
+  const [config, setConfig] = useState<GalleryWallConfig>({
     backgroudImage: "",
     randomOrder: false,
     picturePropsList: [],
-  };
-
-  // Background image
-  if (data.backgroudImage != "" && data.backgroudImage) {
-    result.backgroudImage = data.backgroudImage;
-  }
-
-  // Random order
-  if (data.randomOrder) {
-    result.randomOrder = data.randomOrder;
-  }
-
-  // Picture props list
-  (data.pictureList as FramedPictureProps[]).forEach((props) => {
-    result.picturePropsList.push({
-      imageSrc: props.imageSrc,
-      nameTag: props.nameTag,
-      timeTag: props.timeTag,
-      herf: props.herf,
-    });
   });
 
-  // console.log(result);
-  return result;
-}
+  // Fetch config
+  function getGalleryWallConfig() {
+    fetch("/gallery-wall/gallery-wall-config.json")
+      .then((response) => response.json())
+      .then((data) => {
+        let result: GalleryWallConfig = {
+          backgroudImage: "",
+          randomOrder: false,
+          picturePropsList: [],
+        };
 
-export default async function PageGalleryWall() {
-  const config = await getGalleryWallConfigFromFs();
+        // Background image
+        if (data.backgroudImage != "" && data.backgroudImage) {
+          result.backgroudImage = data.backgroudImage;
+        }
+
+        // Random order
+        if (data.randomOrder) {
+          result.randomOrder = data.randomOrder;
+        }
+
+        // Picture props list
+        (data.pictureList as FramedPictureProps[]).forEach((props) => {
+          result.picturePropsList.push({
+            imageSrc: props.imageSrc,
+            nameTag: props.nameTag,
+            timeTag: props.timeTag,
+            herf: props.herf,
+          });
+
+          console.log(result);
+          setConfig(result);
+        });
+      });
+  }
+  useEffect(() => {
+    getGalleryWallConfig();
+  }, []);
 
   // Shuffle for random order
   const shuffle = (array: FramedPictureProps[]) => {
