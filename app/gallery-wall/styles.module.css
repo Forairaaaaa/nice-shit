@@ -1,0 +1,18 @@
+.background {
+  /* background-image: url("https://images.unsplash.com/photo-1699134115052-bd7899efddcc"); */
+  /* background-color:gainsboro; */
+  min-height: 100vh;
+  background-attachment: scroll;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.backgroundNoiseFilter {
+  background-image: url("/bg-noise.svg");
+  min-height: 100vh;
+  background-attachment: scroll;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}

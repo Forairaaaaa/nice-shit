@@ -1,5 +1,7 @@
 {
-  "pictureProps": [
+  "backgroudImage" : "",
+  "randomOrder": true,
+  "pictureList": [
     {
       "imageSrc": "https://mwm80skshoqny9ax.public.blob.vercel-storage.com/F5RVFoVacAAyXZs-3bxwwAQ3r0FptsR9IafFunGSijxw84.png",
       "nameTag": "",
