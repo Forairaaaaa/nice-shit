@@ -45,8 +45,7 @@ export default function FramedPicture(props: FramedPictureProps) {
         transition={{ type: "spring", stiffness: 200, damping: 20, mass: 1 }}
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 1 }}
-      >
-      </motion.img>
+      ></motion.img>
 
       {props.nameTag != "" && (
         <h1
