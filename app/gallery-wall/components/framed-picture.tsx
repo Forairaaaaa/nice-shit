@@ -8,7 +8,7 @@ const nameTagFont = Oswald({ subsets: ["latin"] });
 
 export interface FramedPictureProps {
   onClick?: () => void;
-  imageSrc: string | undefined;
+  imageSrc: string;
   nameTag: string;
   timeTag: string;
   rotate?: number;
