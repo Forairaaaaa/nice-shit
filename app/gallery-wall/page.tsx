@@ -26,7 +26,7 @@ export default async function PageGalleryWall() {
   return (
     <div className="background-project-wall">
       <div className="background-noise-filter">
-        {GalleryWall(await getPictureListFromFs())}
+        {GalleryWall(await getPictureListFromFs(), true)}
       </div>
     </div>
   );

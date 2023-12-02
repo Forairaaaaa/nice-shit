@@ -22,7 +22,7 @@ export default function FramedPicture(props: FramedPictureProps) {
   return (
     <motion.div
       className={styles.framedPicture + " shadow-xl"}
-      initial={{ scale: 0.9, rotate: 0 }}
+      initial={{ scale: 0.7, rotate: 0 }}
       whileInView={{ scale: 1, rotate: props.rotate ?? getRandom(-5, 5) }}
       transition={{ type: "spring", stiffness: 400, damping: 20, mass: 1 }}
       whileHover={{ scale: 1.05 }}
