@@ -11,13 +11,13 @@ interface VacationProps {
   isOffDay: boolean;
 }
 
-export default function PageVacatoinCountdown() {
+function VacationCountdown() {
   const [date, setDate] = useState("");
   const [countDown, setCountDown] = useState(0);
 
   function handleGetDate() {
-    // setDate(moment().format("YYYY.MM.DD HH:mm"));
-    setDate(moment().format("YYYY.MM.DD"));
+    setDate(moment().format("YYYY.MM.DD HH:mm"));
+    // setDate(moment().format("YYYY.MM.DD"));
   }
 
   function handleGetCountdown() {
@@ -64,23 +64,29 @@ export default function PageVacatoinCountdown() {
   }
 
   useEffect(() => {
+    // Update at once
     handleGetCountdown();
     handleGetDate();
 
-    // const timerId = setInterval(() => {
-    //   handleGetCountdown();
-    //   handleGetDate();
-    // }, 1000);
+    // Update every seconds
+    const timerId = setInterval(() => {
+      handleGetCountdown();
+      handleGetDate();
+    }, 1000);
 
-    // return () => {
-    //   clearInterval(timerId);
-    // };
+    return () => {
+      clearInterval(timerId);
+    };
   }, []);
 
+  return <Countdown date={date} countDown={countDown}></Countdown>;
+}
+
+export default function PageVacatoinCountdown() {
   return (
     <main>
       <Background>
-        <Countdown date={date} countDown={countDown}></Countdown>
+        <VacationCountdown></VacationCountdown>
       </Background>
     </main>
   );
