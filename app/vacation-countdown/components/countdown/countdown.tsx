@@ -40,7 +40,9 @@ export default function Countdown(props: Props) {
           <span className={styles["countdown"]}>{Math.abs(countDown)}</span>天
         </div>
         <div className={enFont.className}>
-          <div className={styles["en-font"]}>VACATION RECOVERY</div>
+          <div className={styles["en-font"]}>
+            {countDown < 0 ? "VACATION DESTROY" : "VACATION RECOVERY"}
+          </div>
           <div className={styles["en-font"]}>
             IN <span>{Math.abs(countDown)}</span> DAYS
           </div>
