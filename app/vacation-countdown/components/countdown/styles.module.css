@@ -1,0 +1,72 @@
+.hero {
+  user-select: none;
+  --color-nice-white: #d9dcdc;
+  --color-nice-red: #fd1d00;
+}
+
+.hero .bar {
+  width: 2.5vh;
+  height: 30vh;
+  background-color: var(--color-nice-red);
+  position: absolute;
+  top: 11vh;
+  left: 11vh;
+}
+
+.hero .label {
+  font-size: 4vh;
+  line-height: 1;
+  font-weight: 300;
+  letter-spacing: 0.3vh;
+  color: var(--color-nice-white);
+  position: absolute;
+  top: 34vh;
+  left: 17vh;
+}
+
+.tail {
+  font-size: 5vh;
+  line-height: 1;
+  font-weight: 400;
+  color: var(--color-nice-white);
+  width: auto;
+  position: absolute;
+  top: 50%;
+  left: 80%;
+  letter-spacing: 0.2vw;
+  user-select: none;
+  --color-nice-white: #d9dcdc;
+  --color-nice-red: #fd1d00;
+}
+
+.tail .head-offset {
+  text-align: right;
+  position: relative;
+  top: 7.5vh;
+  left: -66.5%;
+}
+
+.tail .countdown {
+  font-size: 15vh;
+  color: var(--color-nice-red);
+  margin-left: 2%;
+  margin-right: 2%;
+  position: relative;
+  top: 0.5vh;
+}
+
+.tail .en-font {
+  font-size: 55%;
+  font-weight: 300;
+  margin-top: 1%;
+  letter-spacing: 0.15vw;
+}
+
+.tail .bar {
+  width: 0.3vw;
+  height: 11.5vh;
+  background-color: #fd1d00;
+  position: relative;
+  top: 25.7vh;
+  left: -7%;
+}

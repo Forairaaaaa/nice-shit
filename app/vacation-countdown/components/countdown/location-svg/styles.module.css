@@ -1,0 +1,17 @@
+/* .location {
+  opacity: 80%;
+} */
+
+.location .svg1 {
+  width: 35vh;
+  position: absolute;
+  top: 4vh;
+  left: 14vh;
+}
+
+.location .svg2 {
+  width: 36vh;
+  position: absolute;
+  top: 3vh;
+  left: 44vh;
+}

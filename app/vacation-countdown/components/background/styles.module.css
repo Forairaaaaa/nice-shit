@@ -1,0 +1,13 @@
+.background {
+  min-height: 100vh;
+  /* background-color: #0a0411; */
+  background-image: linear-gradient(to bottom right, #120420, #000000);
+}
+
+.background .noise {
+  background-image: url("/bg-noise.svg");
+  height: 100vh;
+  width: 100vw;
+  opacity: 35%;
+  position: fixed;
+}

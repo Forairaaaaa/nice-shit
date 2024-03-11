@@ -1,0 +1,17 @@
+.blob {
+  width: 350vh;
+  position: fixed;
+  top: -280vh;
+  left: -170vh;
+  filter: blur(60px);
+  animation: rotate 120000ms linear infinite;
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
