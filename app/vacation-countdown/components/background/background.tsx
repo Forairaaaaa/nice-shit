@@ -12,14 +12,14 @@ export default function Background(props: BackgroundProps) {
     <div className={styles.background}>
       {/* Stars */}
       <Starfield
-        starCount={3000}
+        starCount={8000}
         starColor={[255, 255, 255]}
-        speedFactor={0.002}
+        speedFactor={0.02}
         backgroundColor="black"
       />
 
       {/* Fake Earth */}
-      <Blob></Blob>
+      {/* <Blob></Blob> */}
 
       {/* Children */}
       {props.children}

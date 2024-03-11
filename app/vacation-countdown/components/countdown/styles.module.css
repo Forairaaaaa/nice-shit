@@ -31,8 +31,8 @@
   color: var(--color-nice-white);
   width: auto;
   position: absolute;
-  top: 50%;
-  left: 80%;
+  top: 40vh;
+  left: 75vw;
   letter-spacing: 0.2vw;
   user-select: none;
   --color-nice-white: #d9dcdc;

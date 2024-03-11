@@ -1,6 +1,6 @@
 import styles from "./styles.module.css";
 
-export default function LocationSvg() {
+export default function EarthLabelSvg() {
   return (
     <div className={styles.location}>
       <div className={styles["svg1"]}>

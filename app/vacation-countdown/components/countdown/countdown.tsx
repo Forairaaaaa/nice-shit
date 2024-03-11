@@ -1,7 +1,7 @@
 import localFont from "next/font/local";
 import styles from "./styles.module.css";
-import { Teko } from "next/font/google";
-import LocationSvg from "./location-svg/location-svg";
+import { Teko, Noto_Sans_SC } from "next/font/google";
+import EarthLabelSvg from "./earth-label-svg/earth-label-svg";
 
 const zhFont = localFont({
   src: "../../../../public/fonts/HarmonyOS_Sans_SC_Regular.ttf",
@@ -20,20 +20,22 @@ export default function Countdown(props: Props) {
   return (
     <div>
       {/* Hero */}
-      <div className={styles.hero + " " + enFont.className}>
-        <LocationSvg></LocationSvg>
+      {/* <div className={styles.hero + " " + enFont.className}>
+        <EarthLabelSvg></EarthLabelSvg>
         <div className={styles["bar"]}></div>
         <div className={styles["label"]}>
           <div>{date}</div>
           <div>{location}</div>
         </div>
-      </div>
+      </div> */}
 
       {/* Tail */}
       <div className={styles["tail"] + " " + zhFont.className}>
         <div className={styles["bar"]}></div>
         {/* <div className={styles["head-offset"]}>距离假期恢复</div> */}
-        <div className={styles["head-offset"]}>{countDown < 0 ? "距离假期危机" : "距离假期恢复"}</div>
+        <div className={styles["head-offset"]}>
+          {countDown < 0 ? "距离假日危机" : "距离假日恢复"}
+        </div>
         <div>
           还剩
           <span className={styles["countdown"]}>{Math.abs(countDown)}</span>天

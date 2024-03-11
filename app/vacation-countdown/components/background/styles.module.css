@@ -1,7 +1,6 @@
 .background {
   min-height: 100vh;
-  /* background-color: #0a0411; */
-  background-image: linear-gradient(to bottom right, #120420, #000000);
+  background-image: linear-gradient(to bottom right, #090e22, #0b021a);
 }
 
 .background .noise {
