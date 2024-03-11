@@ -21,7 +21,7 @@ export default function Countdown(props: Props) {
     <div>
       {/* Hero */}
       {/* <div className={styles.hero + " " + enFont.className}>
-        <EarthLabelSvg></EarthLabelSvg>
+        <EarthLabelSvg></EarthLabelSvg> 
         <div className={styles["bar"]}></div>
         <div className={styles["label"]}>
           <div>{date}</div>
@@ -32,7 +32,6 @@ export default function Countdown(props: Props) {
       {/* Tail */}
       <div className={styles["tail"] + " " + zhFont.className}>
         <div className={styles["bar"]}></div>
-        {/* <div className={styles["head-offset"]}>距离假期恢复</div> */}
         <div className={styles["head-offset"]}>
           {countDown < 0 ? "距离假日危机" : "距离假日恢复"}
         </div>

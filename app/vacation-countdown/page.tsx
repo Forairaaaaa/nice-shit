@@ -16,7 +16,8 @@ function VacationCountdown() {
   const [countDown, setCountDown] = useState(0);
 
   function handleGetDate() {
-    setDate(moment().format("YYYY.MM.DD HH:mm"));
+    setDate(moment().format("YYYY.MM.DD HH:mm:ss"));
+    // setDate(moment().format("YYYY.MM.DD HH:mm"));
     // setDate(moment().format("YYYY.MM.DD"));
   }
 
