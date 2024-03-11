@@ -33,7 +33,7 @@ export default function Countdown(props: Props) {
       <div className={styles["tail"] + " " + zhFont.className}>
         <div className={styles["bar"]}></div>
         <div className={styles["head-offset"]}>
-          {countDown < 0 ? "距离假日危机" : "距离假日恢复"}
+          {countDown < 0 ? "距离节假日危机" : "距离节假日恢复"}
         </div>
         <div>
           还剩
