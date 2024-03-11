@@ -1,12 +1,23 @@
 .background {
   min-height: 100vh;
-  background-image: linear-gradient(to bottom right, #090e22, #0b021a);
+  background-image: linear-gradient(to bottom right, #0b021a, #090e22);
+}
+
+.background .mesh {
+  background-image: url("/meshy/mesh-367.png");
+  background-size: cover;
+  height: 100vh;
+  width: 100vw;
+  opacity: 10%;
+  filter: blur(10px);
 }
 
 .background .noise {
   background-image: url("/bg-noise.svg");
   height: 100vh;
   width: 100vw;
-  opacity: 35%;
+  opacity: 30%;
   position: fixed;
+  /* border-color: aliceblue;
+  border-width: 1vh; */
 }

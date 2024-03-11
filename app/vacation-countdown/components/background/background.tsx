@@ -10,6 +10,9 @@ interface BackgroundProps {
 export default function Background(props: BackgroundProps) {
   return (
     <div className={styles.background}>
+      {/* Mesh */}
+      {/* <div className={styles["mesh"]}></div> */}
+
       {/* Stars */}
       <Starfield
         starCount={8000}
@@ -26,6 +29,9 @@ export default function Background(props: BackgroundProps) {
 
       {/* Noise filter */}
       <div className={styles["noise"]}></div>
+
+      {/* Mesh */}
+      <div className={styles["mesh"]}></div>
     </div>
   );
 }
