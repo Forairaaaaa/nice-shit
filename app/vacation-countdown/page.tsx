@@ -49,10 +49,10 @@ function VacationCountdown() {
             newDay.add(1, "days");
             const isNewDayOff = isOffDay(newDay);
             if (isTodayOff && !isNewDayOff) {
-              return moment().diff(newDay, "days");
+              return moment().startOf("day").diff(newDay.endOf("day"), "days");
             }
             if (!isTodayOff && isNewDayOff) {
-              return newDay.diff(moment(), "days");
+              return newDay.endOf("day").diff(moment().startOf("day"), "days");
             }
           }
         }
