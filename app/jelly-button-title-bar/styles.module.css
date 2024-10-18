@@ -1,0 +1,8 @@
+.backgroundNoiseFilter {
+  background-image: url("/bg-noise.svg");
+  min-height: 100vh;
+  background-attachment: scroll;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}

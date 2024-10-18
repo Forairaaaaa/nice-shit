@@ -10,6 +10,10 @@ export default function Home() {
       <Link className="text-5xl font-serif" href={"/vacation-countdown"}>
         Vacation Countdown
       </Link>
+      <div></div>
+      <Link className="text-5xl font-serif" href={"/jelly-button-title-bar"}>
+        Jelly Button Title Bar
+      </Link>
     </center>
   );
 }
