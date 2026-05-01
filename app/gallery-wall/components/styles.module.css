@@ -119,6 +119,13 @@
   overflow: hidden;
 }
 
+.lightboxViewport {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-origin: center center;
+}
+
 .lightboxTrack {
   display: flex;
   height: 100%;
@@ -131,7 +138,7 @@
   align-items: center;
   justify-content: center;
   padding: 6rem 5rem;
-  transition: opacity 420ms ease;
+  transition: opacity 500ms ease;
 }
 
 .lightboxSlideActive {
@@ -147,19 +154,59 @@
   top: 0;
   bottom: 0;
   z-index: 2;
+  display: flex;
+  align-items: center;
   width: 24vw;
   min-width: 5rem;
   border: 0;
   background: transparent;
   cursor: pointer;
+  color: rgba(248, 250, 252, 0.96);
 }
 
 .lightboxHotspotLeft {
   left: 0;
+  justify-content: flex-start;
+  padding-left: 1.15rem;
 }
 
 .lightboxHotspotRight {
   right: 0;
+  justify-content: flex-end;
+  padding-right: 1.15rem;
+}
+
+.lightboxHotspotIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Material Symbols Rounded";
+  font-size: 3rem;
+  line-height: 1;
+  color: rgb(116, 116, 116);
+  opacity: 0;
+  transition: opacity 220ms ease;
+  pointer-events: none;
+  font-variation-settings:
+    "FILL" 0,
+    "wght" 400,
+    "GRAD" 0,
+    "opsz" 24;
+}
+
+.lightboxHotspot:hover .lightboxHotspotIcon,
+.lightboxHotspot:focus-visible .lightboxHotspotIcon,
+.lightboxHotspotIconVisible {
+  opacity: 1;
+}
+
+.lightboxCloseHoverZone {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 2;
+  width: 7rem;
+  height: 6rem;
 }
 
 .lightboxClose {
@@ -181,7 +228,23 @@
     0 0 0 1px rgba(148, 163, 184, 0.22) inset,
     0 1px 0 rgba(255, 255, 255, 0.9) inset;
   cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-22px);
+  transition: box-shadow 220ms ease;
   backdrop-filter: blur(10px);
+}
+
+.lightboxClose:hover {
+  box-shadow:
+    0 24px 34px -18px rgba(15, 23, 42, 0.48),
+    0 0 0 1px rgba(148, 163, 184, 0.28) inset,
+    0 1px 0 rgba(255, 255, 255, 0.94) inset;
+}
+
+.lightboxCloseInteractive,
+.lightbox:focus-within .lightboxClose {
+  pointer-events: auto;
 }
 
 .lightboxCloseIcon {
@@ -208,5 +271,9 @@
   .lightboxHotspot {
     width: 18vw;
     min-width: 4rem;
+  }
+
+  .lightboxHotspotIcon {
+    font-size: 1.8rem;
   }
 }
