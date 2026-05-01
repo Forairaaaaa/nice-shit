@@ -77,6 +77,8 @@ export default function PageGalleryWall() {
   );
   const [isRandomOrderEnabled, setIsRandomOrderEnabled] = useState(false);
   const [isReverseOrderEnabled, setIsReverseOrderEnabled] = useState(false);
+  const [isNameVisible, setIsNameVisible] = useState(true);
+  const [isTimeVisible, setIsTimeVisible] = useState(true);
 
   useEffect(() => {
     let isMounted = true;
@@ -138,12 +140,20 @@ export default function PageGalleryWall() {
         photoCount={config.picturePropsList.length}
         isRandomOrderEnabled={isRandomOrderEnabled}
         isReverseOrderEnabled={isReverseOrderEnabled}
+        isNameVisible={isNameVisible}
+        isTimeVisible={isTimeVisible}
         onRandomOrderChange={setIsRandomOrderEnabled}
         onReverseOrderChange={setIsReverseOrderEnabled}
+        onNameVisibleChange={setIsNameVisible}
+        onTimeVisibleChange={setIsTimeVisible}
       />
 
       <div className={styles.backgroundNoiseFilter}>
-        <GalleryWall picturePropsList={displayedPictures}></GalleryWall>
+        <GalleryWall
+          picturePropsList={displayedPictures}
+          isNameVisible={isNameVisible}
+          isTimeVisible={isTimeVisible}
+        ></GalleryWall>
       </div>
     </div>
   );

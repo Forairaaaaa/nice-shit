@@ -8,6 +8,8 @@ import styles from "./styles.module.css";
 interface GalleryLightboxProps {
   picturePropsList: FramedPictureProps[];
   initialPictureIndex: number;
+  isNameVisible: boolean;
+  isTimeVisible: boolean;
   onClose: () => void;
 }
 
@@ -325,6 +327,8 @@ export default function GalleryLightbox(props: GalleryLightboxProps) {
                 nameTag={pictureProps.nameTag}
                 timeTag={pictureProps.timeTag}
                 rotate={pictureProps.rotate}
+                isNameVisible={props.isNameVisible}
+                isTimeVisible={props.isTimeVisible}
                 isDraggable={false}
               ></FramedPicture>
             </div>

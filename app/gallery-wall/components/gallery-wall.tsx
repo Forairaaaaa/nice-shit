@@ -6,6 +6,8 @@ import GalleryLightbox from "./gallery-lightbox";
 
 interface GalleryWallProps {
   picturePropsList: FramedPictureProps[];
+  isNameVisible: boolean;
+  isTimeVisible: boolean;
 }
 
 export default function GalleryWall(props: GalleryWallProps) {
@@ -18,6 +20,8 @@ export default function GalleryWall(props: GalleryWallProps) {
       <GalleryLightbox
         picturePropsList={props.picturePropsList}
         initialPictureIndex={selectedPictureIndex}
+        isNameVisible={props.isNameVisible}
+        isTimeVisible={props.isTimeVisible}
         onClose={() => {
           setSelectedPictureIndex(null);
         }}
@@ -34,6 +38,8 @@ export default function GalleryWall(props: GalleryWallProps) {
           nameTag={pictureProps.nameTag}
           timeTag={pictureProps.timeTag}
           rotate={pictureProps.rotate}
+          isNameVisible={props.isNameVisible}
+          isTimeVisible={props.isTimeVisible}
           onClick={() => {
             setSelectedPictureIndex(index);
           }}

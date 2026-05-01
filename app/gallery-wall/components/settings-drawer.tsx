@@ -8,8 +8,12 @@ interface SettingsDrawerProps {
   photoCount: number;
   isRandomOrderEnabled: boolean;
   isReverseOrderEnabled: boolean;
+  isNameVisible: boolean;
+  isTimeVisible: boolean;
   onRandomOrderChange: (value: boolean) => void;
   onReverseOrderChange: (value: boolean) => void;
+  onNameVisibleChange: (value: boolean) => void;
+  onTimeVisibleChange: (value: boolean) => void;
 }
 
 export default function SettingsDrawer(props: SettingsDrawerProps) {
@@ -198,6 +202,40 @@ export default function SettingsDrawer(props: SettingsDrawerProps) {
                 </button>
               </label>
             )}
+
+            <label className={styles.settingsCard}>
+              <span className={styles.settingsCardLabel}>Show name</span>
+              <button
+                type="button"
+                role="switch"
+                aria-checked={props.isNameVisible}
+                className={
+                  styles.settingsSwitch +
+                  " " +
+                  (props.isNameVisible ? styles.settingsSwitchActive : "")
+                }
+                onClick={() => props.onNameVisibleChange(!props.isNameVisible)}
+              >
+                <span className={styles.settingsSwitchThumb}></span>
+              </button>
+            </label>
+
+            <label className={styles.settingsCard}>
+              <span className={styles.settingsCardLabel}>Show time</span>
+              <button
+                type="button"
+                role="switch"
+                aria-checked={props.isTimeVisible}
+                className={
+                  styles.settingsSwitch +
+                  " " +
+                  (props.isTimeVisible ? styles.settingsSwitchActive : "")
+                }
+                onClick={() => props.onTimeVisibleChange(!props.isTimeVisible)}
+              >
+                <span className={styles.settingsSwitchThumb}></span>
+              </button>
+            </label>
 
             <div className={styles.settingsCard}>
               <span className={styles.settingsCardLabel}>Photos loaded</span>

@@ -13,6 +13,8 @@ export interface FramedPictureProps {
   href?: string;
   isDraggable?: boolean;
   isRotatable?: boolean;
+  isNameVisible?: boolean;
+  isTimeVisible?: boolean;
 }
 
 export default function FramedPicture(props: FramedPictureProps) {
@@ -41,6 +43,8 @@ export default function FramedPicture(props: FramedPictureProps) {
   const rotationRef = useRef(rotation);
   const isDraggable = props.isDraggable ?? true;
   const isRotatable = props.isRotatable ?? true;
+  const isNameVisible = props.isNameVisible ?? true;
+  const isTimeVisible = props.isTimeVisible ?? true;
 
   function getRandom(min: number, max: number): number {
     return Math.random() * (max - min) + min;
@@ -301,11 +305,11 @@ export default function FramedPicture(props: FramedPictureProps) {
       </div>
 
       <div className={styles.framedPictureCaption}>
-        {props.nameTag && (
+        {isNameVisible && props.nameTag && (
           <h1 className={styles.framedPictureNameTag}>{props.nameTag}</h1>
         )}
 
-        {props.timeTag && (
+        {isTimeVisible && props.timeTag && (
           <p className={styles.framedPictureTimeTag}>{props.timeTag}</p>
         )}
       </div>
