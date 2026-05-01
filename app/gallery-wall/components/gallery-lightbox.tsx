@@ -29,12 +29,24 @@ export default function GalleryLightbox(props: GalleryLightboxProps) {
   const [isHotspotHintDismissed, setIsHotspotHintDismissed] = useState(false);
 
   const currentPictureIndexRef = useRef(props.initialPictureIndex);
+  const trackPositionRef = useRef(0);
+  const hasInitializedTrackPositionRef = useRef(false);
   const closeButtonAnimationRef = useRef<AnimationPlaybackControls | null>(
     null
   );
   const trackAnimationRef = useRef<AnimationPlaybackControls | null>(null);
   const closeHintTimeoutRef = useRef<number | null>(null);
   const hotspotHintTimeoutRef = useRef<number | null>(null);
+
+  function applyTrackTransform() {
+    const trackElement = lightboxTrackRef.current;
+
+    if (!trackElement) {
+      return;
+    }
+
+    trackElement.style.transform = `translateX(${trackPositionRef.current}px) translateZ(0px)`;
+  }
 
   useEffect(() => {
     setCurrentPictureIndex(props.initialPictureIndex);
@@ -201,25 +213,32 @@ export default function GalleryLightbox(props: GalleryLightboxProps) {
 
   useEffect(() => {
     const viewportElement = lightboxViewportRef.current;
-    const trackElement = lightboxTrackRef.current;
 
-    if (!viewportElement || !trackElement) {
+    if (!viewportElement) {
       return;
     }
 
     const targetX = -viewportElement.clientWidth * currentPictureIndex;
 
+    if (!hasInitializedTrackPositionRef.current) {
+      trackAnimationRef.current?.stop();
+      trackPositionRef.current = targetX;
+      applyTrackTransform();
+      hasInitializedTrackPositionRef.current = true;
+      return;
+    }
+
     trackAnimationRef.current?.stop();
-    trackAnimationRef.current = animate(
-      trackElement,
-      { x: targetX },
-      {
-        type: "spring",
-        stiffness: 170,
-        damping: 24,
-        mass: 0.9,
-      }
-    );
+    trackAnimationRef.current = animate(trackPositionRef.current, targetX, {
+      type: "spring",
+      stiffness: 170,
+      damping: 24,
+      mass: 0.9,
+      onUpdate(latest) {
+        trackPositionRef.current = latest;
+        applyTrackTransform();
+      },
+    });
 
     return () => {
       trackAnimationRef.current?.stop();
@@ -239,7 +258,9 @@ export default function GalleryLightbox(props: GalleryLightboxProps) {
         -viewportElement.clientWidth * currentPictureIndexRef.current;
 
       trackAnimationRef.current?.stop();
-      trackElement.style.transform = `translateX(${targetX}px)`;
+      trackPositionRef.current = targetX;
+      applyTrackTransform();
+      hasInitializedTrackPositionRef.current = true;
     }
 
     syncTrackPosition();
