@@ -14,9 +14,11 @@ export interface FramedPictureProps {
   timeTag?: string;
   rotate?: number;
   href?: string;
+  isDraggable?: boolean;
 }
 
 export default function FramedPicture(props: FramedPictureProps) {
+  const CLICK_DISTANCE_THRESHOLD = 8;
   const pictureRef = useRef<HTMLDivElement>(null);
   const positionRef = useRef({ x: 0, y: 0 });
   const animationStateRef = useRef({ scale: 0.7, rotation: 0 });
@@ -26,12 +28,14 @@ export default function FramedPicture(props: FramedPictureProps) {
     startY: 0,
     originX: 0,
     originY: 0,
+    didMove: false,
   });
   const [isInView, setIsInView] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [rotation] = useState(() => props.rotate ?? getRandom(-5, 5));
+  const isDraggable = props.isDraggable ?? true;
 
   function getRandom(min: number, max: number): number {
     return Math.random() * (max - min) + min;
@@ -115,24 +119,36 @@ export default function FramedPicture(props: FramedPictureProps) {
   }, [isHovered, isInView, rotation]);
 
   function handlePointerDown(event: React.PointerEvent<HTMLDivElement>) {
+    if (!isDraggable) {
+      return;
+    }
+
     event.currentTarget.setPointerCapture(event.pointerId);
     dragStateRef.current = {
       startX: event.clientX,
       startY: event.clientY,
       originX: position.x,
       originY: position.y,
+      didMove: false,
     };
     setIsDragging(true);
     setIsHovered(false);
   }
 
   function handlePointerMove(event: React.PointerEvent<HTMLDivElement>) {
-    if (!isDragging) {
+    if (!isDraggable || !isDragging) {
       return;
     }
 
     const deltaX = event.clientX - dragStateRef.current.startX;
     const deltaY = event.clientY - dragStateRef.current.startY;
+
+    if (
+      !dragStateRef.current.didMove &&
+      Math.hypot(deltaX, deltaY) >= CLICK_DISTANCE_THRESHOLD
+    ) {
+      dragStateRef.current.didMove = true;
+    }
 
     setPosition({
       x: dragStateRef.current.originX + deltaX,
@@ -141,6 +157,10 @@ export default function FramedPicture(props: FramedPictureProps) {
   }
 
   function handlePointerUp(event: React.PointerEvent<HTMLDivElement>) {
+    if (!isDraggable) {
+      return;
+    }
+
     const bounds = event.currentTarget.getBoundingClientRect();
     const isPointerInside =
       event.clientX >= bounds.left &&
@@ -154,12 +174,20 @@ export default function FramedPicture(props: FramedPictureProps) {
 
     setIsDragging(false);
     setIsHovered(isPointerInside);
+
+    if (isPointerInside && !dragStateRef.current.didMove) {
+      props.onClick?.();
+    }
   }
 
   return (
     <div
       ref={pictureRef}
-      className={styles.framedPicture + " shadow-xl"}
+      className={
+        styles.framedPicture +
+        " shadow-xl " +
+        (isDraggable ? "" : styles.framedPictureStatic)
+      }
       style={{ transform: "translate3d(0, 0, 0) rotate(0deg) scale(0.7)" }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
@@ -173,7 +201,6 @@ export default function FramedPicture(props: FramedPictureProps) {
           src={props.imageSrc}
           alt={"image about " + props.nameTag}
           className={styles.framedPictureImage}
-          onClick={props.onClick}
         ></img>
       </div>
 
