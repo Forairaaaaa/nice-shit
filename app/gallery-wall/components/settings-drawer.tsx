@@ -7,7 +7,9 @@ import styles from "../styles.module.css";
 interface SettingsDrawerProps {
   photoCount: number;
   isRandomOrderEnabled: boolean;
+  isReverseOrderEnabled: boolean;
   onRandomOrderChange: (value: boolean) => void;
+  onReverseOrderChange: (value: boolean) => void;
 }
 
 export default function SettingsDrawer(props: SettingsDrawerProps) {
@@ -175,6 +177,27 @@ export default function SettingsDrawer(props: SettingsDrawerProps) {
                 <span className={styles.settingsSwitchThumb}></span>
               </button>
             </label>
+
+            {!props.isRandomOrderEnabled && (
+              <label className={styles.settingsCard}>
+                <span className={styles.settingsCardLabel}>Reverse order</span>
+                <button
+                  type="button"
+                  role="switch"
+                  aria-checked={props.isReverseOrderEnabled}
+                  className={
+                    styles.settingsSwitch +
+                    " " +
+                    (props.isReverseOrderEnabled ? styles.settingsSwitchActive : "")
+                  }
+                  onClick={() =>
+                    props.onReverseOrderChange(!props.isReverseOrderEnabled)
+                  }
+                >
+                  <span className={styles.settingsSwitchThumb}></span>
+                </button>
+              </label>
+            )}
 
             <div className={styles.settingsCard}>
               <span className={styles.settingsCardLabel}>Photos loaded</span>

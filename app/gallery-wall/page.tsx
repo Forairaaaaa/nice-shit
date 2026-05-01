@@ -30,6 +30,10 @@ const EMPTY_CONFIG: GalleryWallConfig = {
   picturePropsList: [],
 };
 
+function reversePictureList(list: FramedPictureProps[]) {
+  return [...list].reverse();
+}
+
 function shufflePictureList(list: FramedPictureProps[]) {
   const shuffledList = [...list];
 
@@ -72,6 +76,7 @@ export default function PageGalleryWall() {
     []
   );
   const [isRandomOrderEnabled, setIsRandomOrderEnabled] = useState(false);
+  const [isReverseOrderEnabled, setIsReverseOrderEnabled] = useState(false);
 
   useEffect(() => {
     let isMounted = true;
@@ -85,6 +90,7 @@ export default function PageGalleryWall() {
         if (isMounted) {
           setConfig(normalizedConfig);
           setIsRandomOrderEnabled(normalizedConfig.randomOrder);
+          setIsReverseOrderEnabled(false);
           setDisplayedPictures(normalizedConfig.picturePropsList);
         }
       } catch (error) {
@@ -93,6 +99,7 @@ export default function PageGalleryWall() {
         if (isMounted) {
           setConfig(EMPTY_CONFIG);
           setIsRandomOrderEnabled(false);
+          setIsReverseOrderEnabled(false);
           setDisplayedPictures([]);
         }
       }
@@ -106,12 +113,17 @@ export default function PageGalleryWall() {
   }, []);
 
   useEffect(() => {
+    if (isRandomOrderEnabled) {
+      setDisplayedPictures(shufflePictureList(config.picturePropsList));
+      return;
+    }
+
     setDisplayedPictures(
-      isRandomOrderEnabled
-        ? shufflePictureList(config.picturePropsList)
+      isReverseOrderEnabled
+        ? reversePictureList(config.picturePropsList)
         : config.picturePropsList
     );
-  }, [config.picturePropsList, isRandomOrderEnabled]);
+  }, [config.picturePropsList, isRandomOrderEnabled, isReverseOrderEnabled]);
 
   return (
     <div
@@ -125,7 +137,9 @@ export default function PageGalleryWall() {
       <SettingsDrawer
         photoCount={config.picturePropsList.length}
         isRandomOrderEnabled={isRandomOrderEnabled}
+        isReverseOrderEnabled={isReverseOrderEnabled}
         onRandomOrderChange={setIsRandomOrderEnabled}
+        onReverseOrderChange={setIsReverseOrderEnabled}
       />
 
       <div className={styles.backgroundNoiseFilter}>
