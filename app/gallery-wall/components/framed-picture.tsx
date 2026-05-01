@@ -7,6 +7,7 @@ import styles from "./styles.module.css";
 export interface FramedPictureProps {
   onClick?: () => void;
   onEditCaption?: () => void;
+  id?: string;
   imageSrc: string;
   nameTag?: string;
   timeTag?: string;

@@ -11,6 +11,7 @@ interface GalleryLightboxProps {
   isNameVisible: boolean;
   isTimeVisible: boolean;
   onEditCaption: (pictureProps: FramedPictureProps) => void;
+  onPictureIndexChange: (index: number) => void;
   onClose: () => void;
 }
 
@@ -55,7 +56,8 @@ export default function GalleryLightbox(props: GalleryLightboxProps) {
 
   useEffect(() => {
     currentPictureIndexRef.current = currentPictureIndex;
-  }, [currentPictureIndex]);
+    props.onPictureIndexChange(currentPictureIndex);
+  }, [currentPictureIndex, props]);
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(pointer: fine)");
@@ -348,6 +350,7 @@ export default function GalleryLightbox(props: GalleryLightboxProps) {
                 imageSrc={pictureProps.imageSrc}
                 nameTag={pictureProps.nameTag}
                 timeTag={pictureProps.timeTag}
+                id={pictureProps.id}
                 rotate={pictureProps.rotate}
                 isNameVisible={props.isNameVisible}
                 isTimeVisible={props.isTimeVisible}

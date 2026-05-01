@@ -32,12 +32,17 @@ interface GalleryWallConfigResponse {
   backgroundImage?: string;
   randomOrder?: boolean;
   pictureList?: Array<{
+    id?: string;
     imageSrc?: string;
     nameTag?: string;
     timeTag?: string;
     href?: string;
     rotate?: number;
   }>;
+}
+
+interface GalleryWallPageProps {
+  initialPictureId?: string | null;
 }
 
 const EMPTY_CONFIG: GalleryWallConfig = {
@@ -70,6 +75,7 @@ function normalizeGalleryWallConfig(
   const picturePropsList = (data.pictureList ?? [])
     .filter((picture) => picture.imageSrc)
     .map((picture) => ({
+      id: picture.id,
       imageSrc: picture.imageSrc as string,
       nameTag: picture.nameTag ?? "",
       timeTag: picture.timeTag ?? "",
@@ -103,7 +109,7 @@ function applyCaptionOverrides(
   });
 }
 
-export default function PageGalleryWall() {
+export default function GalleryWallPage(props: GalleryWallPageProps) {
   const [config, setConfig] = useState<GalleryWallConfig>(EMPTY_CONFIG);
   const [displayedPictures, setDisplayedPictures] = useState<FramedPictureProps[]>(
     []
@@ -214,6 +220,10 @@ export default function PageGalleryWall() {
   }
 
   const resolvedPictures = applyCaptionOverrides(displayedPictures, captionOverrides);
+  const resolvedCanonicalPictures = applyCaptionOverrides(
+    config.picturePropsList,
+    captionOverrides
+  );
 
   return (
     <div
@@ -239,8 +249,10 @@ export default function PageGalleryWall() {
       <div className={styles.backgroundNoiseFilter}>
         <GalleryWall
           picturePropsList={resolvedPictures}
+          canonicalPicturePropsList={resolvedCanonicalPictures}
           isNameVisible={isNameVisible}
           isTimeVisible={isTimeVisible}
+          initialPictureId={props.initialPictureId ?? null}
           onEditCaption={openCaptionEditor}
         ></GalleryWall>
       </div>

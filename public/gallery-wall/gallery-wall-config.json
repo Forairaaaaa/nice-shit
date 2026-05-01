@@ -3,13 +3,10 @@
   "randomOrder": true,
   "pictureList": [
     {
-      "imageSrc": "https://pic1.imgdb.cn/item/69f4b8fa37af9d46af1a8029.jpg"
-    },
-    {
-      "imageSrc": "https://pic1.imgdb.cn/item/69f4b8fe37af9d46af1a803c.jpg"
-    },
-    {
-      "imageSrc": "https://pic1.imgdb.cn/item/69f4b99e37af9d46af1a8261.jpg"
+      "imageSrc": "https://pic.imgdb.cn/item/656af098c458853aeffa5103.jpg",
+      "nameTag": "^･-･^",
+      "timeTag": "Hello",
+      "id": "hello"
     },
     {
       "imageSrc": "https://pic1.imgdb.cn/item/69f4b75037af9d46af1a7a4f.jpg"
@@ -93,10 +90,6 @@
       "imageSrc": "https://pic.imgdb.cn/item/656af13cc458853aeffc9057.png",
       "nameTag": "🌕",
       "timeTag": "2022.3.7"
-    },
-    {
-      "imageSrc": "https://pic.imgdb.cn/item/656af098c458853aeffa5103.jpg",
-      "timeTag": "2023.12.2"
     }
   ]
 }
