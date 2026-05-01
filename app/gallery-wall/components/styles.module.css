@@ -1,5 +1,9 @@
 .framedPicture {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 1), rgba(252, 252, 252, 0.98));
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 1),
+    rgba(252, 252, 252, 0.98)
+  );
   padding: 1.95rem 1.9rem 6rem;
   display: flex;
   flex-direction: column;
@@ -24,7 +28,11 @@
   inset: 0;
   z-index: -1;
   transform: translate(1px, 1.5px);
-  background: linear-gradient(180deg, rgba(248, 248, 248, 0.92), rgba(239, 239, 239, 0.9));
+  background: linear-gradient(
+    180deg,
+    rgba(248, 248, 248, 0.92),
+    rgba(239, 239, 239, 0.9)
+  );
   opacity: 0.28;
   filter: blur(0.35px);
 }
@@ -71,8 +79,8 @@
 }
 
 .framedPictureRotateHandleBottomRight {
-  right: -1.0rem;
-  bottom: -1.0rem;
+  right: -1rem;
+  bottom: -1rem;
   cursor: nwse-resize;
 }
 
@@ -119,7 +127,11 @@
   inset: 0;
   pointer-events: none;
   background:
-    radial-gradient(circle at 50% 18%, rgba(255, 255, 255, 0.22), transparent 42%),
+    radial-gradient(
+      circle at 50% 18%,
+      rgba(255, 255, 255, 0.22),
+      transparent 42%
+    ),
     linear-gradient(180deg, transparent 58%, rgba(22, 15, 9, 0.12) 100%);
   mix-blend-mode: soft-light;
   opacity: 0.9;
@@ -138,7 +150,7 @@
 
 .framedPictureCaption {
   position: absolute;
-  right: 1.25rem;
+  right: 1.8rem;
   bottom: 1.25rem;
   display: flex;
   min-height: 3.5rem;
@@ -148,18 +160,20 @@
 }
 
 .framedPictureNameTag {
+  font-family: "Oswald", sans-serif;
   font-size: 1.5rem;
   line-height: 2rem;
   font-weight: 600;
-  color: rgb(60, 60, 60);
+  color: rgb(80, 80, 80);
   white-space: nowrap;
 }
 
 .framedPictureTimeTag {
+  font-family: "Oswald", sans-serif;
   font-size: 1rem;
   line-height: 1.5rem;
   font-weight: 300;
-  color: rgb(58, 58, 58);
+  color: rgb(80, 80, 80);
   white-space: nowrap;
 }
 

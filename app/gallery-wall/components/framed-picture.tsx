@@ -2,10 +2,7 @@
 
 import { animate, type AnimationPlaybackControls } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
-import { Oswald } from "next/font/google";
 import styles from "./styles.module.css";
-
-const nameTagFont = Oswald({ subsets: ["latin"] });
 
 export interface FramedPictureProps {
   onClick?: () => void;
@@ -305,23 +302,11 @@ export default function FramedPicture(props: FramedPictureProps) {
 
       <div className={styles.framedPictureCaption}>
         {props.nameTag && (
-          <h1
-            className={
-              nameTagFont.className + " " + styles.framedPictureNameTag
-            }
-          >
-            {props.nameTag}
-          </h1>
+          <h1 className={styles.framedPictureNameTag}>{props.nameTag}</h1>
         )}
 
         {props.timeTag && (
-          <p
-            className={
-              nameTagFont.className + " " + styles.framedPictureTimeTag
-            }
-          >
-            {props.timeTag}
-          </p>
+          <p className={styles.framedPictureTimeTag}>{props.timeTag}</p>
         )}
       </div>
     </div>
