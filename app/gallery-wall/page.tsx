@@ -1,10 +1,26 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import CaptionEditorModal from "./components/caption-editor-modal";
 import GalleryWall from "./components/gallery-wall";
 import type { FramedPictureProps } from "./components/framed-picture";
 import SettingsDrawer from "./components/settings-drawer";
 import styles from "./styles.module.css";
+
+const CAPTION_OVERRIDES_STORAGE_KEY = "gallery-wall-caption-overrides";
+
+interface CaptionOverrides {
+  [imageSrc: string]: {
+    nameTag: string;
+    timeTag: string;
+  };
+}
+
+interface EditingPictureState {
+  imageSrc: string;
+  nameTag: string;
+  timeTag: string;
+}
 
 interface GalleryWallConfig {
   backgroundImage: string;
@@ -70,6 +86,25 @@ function normalizeGalleryWallConfig(
   };
 }
 
+function applyCaptionOverrides(
+  list: FramedPictureProps[],
+  captionOverrides: CaptionOverrides
+) {
+  return list.map((pictureProps) => {
+    const override = captionOverrides[pictureProps.imageSrc];
+
+    if (!override) {
+      return pictureProps;
+    }
+
+    return {
+      ...pictureProps,
+      nameTag: override.nameTag,
+      timeTag: override.timeTag,
+    };
+  });
+}
+
 export default function PageGalleryWall() {
   const [config, setConfig] = useState<GalleryWallConfig>(EMPTY_CONFIG);
   const [displayedPictures, setDisplayedPictures] = useState<FramedPictureProps[]>(
@@ -79,6 +114,26 @@ export default function PageGalleryWall() {
   const [isReverseOrderEnabled, setIsReverseOrderEnabled] = useState(false);
   const [isNameVisible, setIsNameVisible] = useState(true);
   const [isTimeVisible, setIsTimeVisible] = useState(true);
+  const [captionOverrides, setCaptionOverrides] = useState<CaptionOverrides>({});
+  const [editingPicture, setEditingPicture] = useState<EditingPictureState | null>(
+    null
+  );
+
+  useEffect(() => {
+    try {
+      const storedOverrides = window.localStorage.getItem(
+        CAPTION_OVERRIDES_STORAGE_KEY
+      );
+
+      if (!storedOverrides) {
+        return;
+      }
+
+      setCaptionOverrides(JSON.parse(storedOverrides) as CaptionOverrides);
+    } catch (error) {
+      console.error("Failed to read gallery wall caption overrides", error);
+    }
+  }, []);
 
   useEffect(() => {
     let isMounted = true;
@@ -127,6 +182,37 @@ export default function PageGalleryWall() {
     );
   }, [config.picturePropsList, isRandomOrderEnabled, isReverseOrderEnabled]);
 
+  function openCaptionEditor(pictureProps: FramedPictureProps) {
+    setEditingPicture({
+      imageSrc: pictureProps.imageSrc,
+      nameTag: pictureProps.nameTag ?? "",
+      timeTag: pictureProps.timeTag ?? "",
+    });
+  }
+
+  function handleCaptionSave(nameTag: string, timeTag: string) {
+    if (!editingPicture) {
+      return;
+    }
+
+    const nextOverrides = {
+      ...captionOverrides,
+      [editingPicture.imageSrc]: {
+        nameTag,
+        timeTag,
+      },
+    };
+
+    setCaptionOverrides(nextOverrides);
+    window.localStorage.setItem(
+      CAPTION_OVERRIDES_STORAGE_KEY,
+      JSON.stringify(nextOverrides)
+    );
+    setEditingPicture(null);
+  }
+
+  const resolvedPictures = applyCaptionOverrides(displayedPictures, captionOverrides);
+
   return (
     <div
       className={styles.background}
@@ -150,11 +236,21 @@ export default function PageGalleryWall() {
 
       <div className={styles.backgroundNoiseFilter}>
         <GalleryWall
-          picturePropsList={displayedPictures}
+          picturePropsList={resolvedPictures}
           isNameVisible={isNameVisible}
           isTimeVisible={isTimeVisible}
+          onEditCaption={openCaptionEditor}
         ></GalleryWall>
       </div>
+
+      {editingPicture && (
+        <CaptionEditorModal
+          initialName={editingPicture.nameTag}
+          initialTime={editingPicture.timeTag}
+          onCancel={() => setEditingPicture(null)}
+          onConfirm={handleCaptionSave}
+        />
+      )}
     </div>
   );
 }

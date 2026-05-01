@@ -216,6 +216,104 @@
   transform: translateX(1.55rem);
 }
 
+.captionEditorBackdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  background: rgba(15, 23, 42, 0.12);
+  backdrop-filter: blur(6px);
+}
+
+.captionEditorModal {
+  width: min(28rem, 100%);
+  border-radius: 2.0rem;
+  padding: 2.0rem;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.97), rgba(248, 250, 252, 0.94));
+  box-shadow:
+    0 28px 60px -32px rgba(15, 23, 42, 0.45),
+    0 0 0 1px rgba(148, 163, 184, 0.18) inset,
+    0 1px 0 rgba(255, 255, 255, 0.94) inset;
+}
+
+.captionEditorHeader {
+  margin-bottom: 0.9rem;
+}
+
+.captionEditorEyebrow {
+  margin: 0;
+  font-size: 0.74rem;
+  line-height: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgb(100, 116, 139);
+}
+
+.captionEditorField {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-bottom: 0.85rem;
+}
+
+.captionEditorLabel {
+  font-size: 0.88rem;
+  line-height: 1.2rem;
+  font-weight: 600;
+  color: rgb(51, 65, 85);
+}
+
+.captionEditorInput {
+  width: 100%;
+  border: 0;
+  border-radius: 0.95rem;
+  background: rgba(255, 255, 255, 0.84);
+  padding: 0.8rem 0.95rem;
+  box-shadow:
+    0 0 0 1px rgba(203, 213, 225, 0.8) inset,
+    0 10px 24px -20px rgba(15, 23, 42, 0.42);
+  font-size: 0.98rem;
+  line-height: 1.4rem;
+  color: rgb(15, 23, 42);
+}
+
+.captionEditorInput:focus {
+  outline: 2px solid rgba(37, 99, 235, 0.32);
+  outline-offset: 2px;
+}
+
+.captionEditorActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.7rem;
+  margin-top: 2rem;
+}
+
+.captionEditorButtonPrimary,
+.captionEditorButtonSecondary {
+  border: 0;
+  border-radius: 999px;
+  padding: 0.72rem 1rem;
+  font-size: 0.9rem;
+  line-height: 1;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.captionEditorButtonPrimary {
+  background: rgb(37, 99, 235);
+  color: white;
+}
+
+.captionEditorButtonSecondary {
+  background: rgba(226, 232, 240, 0.92);
+  color: rgb(51, 65, 85);
+}
+
 @media (max-width: 640px) {
   .settingsDock {
     width: calc(100vw - 1rem);

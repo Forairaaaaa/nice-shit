@@ -8,6 +8,7 @@ interface GalleryWallProps {
   picturePropsList: FramedPictureProps[];
   isNameVisible: boolean;
   isTimeVisible: boolean;
+  onEditCaption: (pictureProps: FramedPictureProps) => void;
 }
 
 export default function GalleryWall(props: GalleryWallProps) {
@@ -22,6 +23,7 @@ export default function GalleryWall(props: GalleryWallProps) {
         initialPictureIndex={selectedPictureIndex}
         isNameVisible={props.isNameVisible}
         isTimeVisible={props.isTimeVisible}
+        onEditCaption={props.onEditCaption}
         onClose={() => {
           setSelectedPictureIndex(null);
         }}
@@ -40,6 +42,7 @@ export default function GalleryWall(props: GalleryWallProps) {
           rotate={pictureProps.rotate}
           isNameVisible={props.isNameVisible}
           isTimeVisible={props.isTimeVisible}
+          onEditCaption={() => props.onEditCaption(pictureProps)}
           onClick={() => {
             setSelectedPictureIndex(index);
           }}

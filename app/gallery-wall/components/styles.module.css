@@ -159,6 +159,21 @@
   justify-content: flex-end;
 }
 
+.framedPictureCaptionEditHotspot {
+  position: absolute;
+  inset: -0.35rem -0.45rem -0.35rem -2rem;
+  border: 0;
+  background: transparent;
+  border-radius: 0.6rem;
+  cursor: text;
+  transition: background-color 180ms ease;
+}
+
+.framedPictureCaptionEditHotspot:hover,
+.framedPictureCaptionEditHotspot:focus-visible {
+  background: rgba(255, 255, 255, 0.16);
+}
+
 .framedPictureNameTag {
   font-family: "Oswald", sans-serif;
   font-size: 1.5rem;

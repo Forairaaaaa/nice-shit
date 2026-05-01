@@ -6,6 +6,7 @@ import styles from "./styles.module.css";
 
 export interface FramedPictureProps {
   onClick?: () => void;
+  onEditCaption?: () => void;
   imageSrc: string;
   nameTag?: string;
   timeTag?: string;
@@ -305,6 +306,24 @@ export default function FramedPicture(props: FramedPictureProps) {
       </div>
 
       <div className={styles.framedPictureCaption}>
+        {props.onEditCaption && (
+          <button
+            type="button"
+            aria-label="Edit photo caption"
+            className={styles.framedPictureCaptionEditHotspot}
+            onPointerDown={(event) => {
+              event.stopPropagation();
+            }}
+            onPointerUp={(event) => {
+              event.stopPropagation();
+            }}
+            onClick={(event) => {
+              event.stopPropagation();
+              props.onEditCaption?.();
+            }}
+          ></button>
+        )}
+
         {isNameVisible && props.nameTag && (
           <h1 className={styles.framedPictureNameTag}>{props.nameTag}</h1>
         )}

@@ -10,6 +10,7 @@ interface GalleryLightboxProps {
   initialPictureIndex: number;
   isNameVisible: boolean;
   isTimeVisible: boolean;
+  onEditCaption: (pictureProps: FramedPictureProps) => void;
   onClose: () => void;
 }
 
@@ -350,6 +351,7 @@ export default function GalleryLightbox(props: GalleryLightboxProps) {
                 rotate={pictureProps.rotate}
                 isNameVisible={props.isNameVisible}
                 isTimeVisible={props.isTimeVisible}
+                onEditCaption={() => props.onEditCaption(pictureProps)}
                 isDraggable={false}
               ></FramedPicture>
             </div>
