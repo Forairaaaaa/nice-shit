@@ -3,8 +3,8 @@ import Link from "next/link";
 export default function Home() {
   return (
     <center className="p-12 space-y-5">
-      <Link className="text-5xl font-serif" href={"/gallery-wall"}>
-        Gallery Wall
+      <Link className="text-5xl font-serif" href={"/gallery"}>
+        Gallery
       </Link>
       <div></div>
       <Link className="text-5xl font-serif" href={"/vacation-countdown"}>
