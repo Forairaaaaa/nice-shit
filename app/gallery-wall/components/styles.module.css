@@ -1,37 +1,49 @@
 .framedPicture {
   background-color: white;
-  padding: 1.25rem;
+  padding: 1.8rem 1.7rem 6rem;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-    cursor: grab;
-    transform-origin: center center;
-    user-select: none;
-    touch-action: none;
-    will-change: transform;
+  position: relative;
+  cursor: grab;
+  transform-origin: center center;
+  user-select: none;
+  touch-action: none;
+  will-change: transform;
 }
 
 .framedPicture:active {
-    cursor: grabbing;
+  cursor: grabbing;
 }
 
 .framedPictureImage {
-    max-height: 300px;
-    margin-bottom: 1.25rem;
-        display: block;
+  max-height: 300px;
+  display: block;
 }
 
+.framedPictureCaption {
+  position: absolute;
+  right: 1.25rem;
+  bottom: 1.25rem;
+  display: flex;
+  min-height: 3.5rem;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-end;
+}
 
 .framedPictureNameTag {
-    font-size: 1.5rem;
-    line-height: 2rem;
-    font-weight: 600;
-    color:rgb(60, 60, 60);
+  font-size: 1.5rem;
+  line-height: 2rem;
+  font-weight: 600;
+  color: rgb(60, 60, 60);
+  white-space: nowrap;
 }
 
 .framedPictureTimeTag {
-    font-size: 1rem;
-    line-height: 1.5rem;
-    font-weight: 300;
-    color:rgb(58, 58, 58);
+  font-size: 1rem;
+  line-height: 1.5rem;
+  font-weight: 300;
+  color: rgb(58, 58, 58);
+  white-space: nowrap;
 }

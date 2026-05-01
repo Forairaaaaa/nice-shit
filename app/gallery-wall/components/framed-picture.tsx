@@ -65,7 +65,7 @@ export default function FramedPicture(props: FramedPictureProps) {
       },
       {
         threshold: [0, 0.2],
-      }
+      },
     );
 
     observer.observe(element);
@@ -175,21 +175,27 @@ export default function FramedPicture(props: FramedPictureProps) {
         onClick={props.onClick}
       ></img>
 
-      {props.nameTag && (
-        <h1
-          className={nameTagFont.className + " " + styles.framedPictureNameTag}
-        >
-          {props.nameTag}
-        </h1>
-      )}
+      <div className={styles.framedPictureCaption}>
+        {props.nameTag && (
+          <h1
+            className={
+              nameTagFont.className + " " + styles.framedPictureNameTag
+            }
+          >
+            {props.nameTag}
+          </h1>
+        )}
 
-      {props.timeTag && (
-        <p
-          className={nameTagFont.className + " " + styles.framedPictureTimeTag}
-        >
-          {props.timeTag}
-        </p>
-      )}
+        {props.timeTag && (
+          <p
+            className={
+              nameTagFont.className + " " + styles.framedPictureTimeTag
+            }
+          >
+            {props.timeTag}
+          </p>
+        )}
+      </div>
     </div>
   );
 }
