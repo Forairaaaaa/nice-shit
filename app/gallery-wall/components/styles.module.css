@@ -4,11 +4,21 @@
   display: flex;
   flex-direction: column;
   align-items: flex-end;
+    cursor: grab;
+    transform-origin: center center;
+    user-select: none;
+    touch-action: none;
+    will-change: transform;
+}
+
+.framedPicture:active {
+    cursor: grabbing;
 }
 
 .framedPictureImage {
     max-height: 300px;
     margin-bottom: 1.25rem;
+        display: block;
 }
 
 
