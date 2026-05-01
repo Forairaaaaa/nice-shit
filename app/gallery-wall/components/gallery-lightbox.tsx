@@ -12,6 +12,8 @@ interface GalleryLightboxProps {
 }
 
 export default function GalleryLightbox(props: GalleryLightboxProps) {
+  const lightboxViewportRef = useRef<HTMLDivElement>(null);
+  const lightboxTrackRef = useRef<HTMLDivElement>(null);
   const [currentPictureIndex, setCurrentPictureIndex] = useState(
     props.initialPictureIndex
   );
@@ -24,15 +26,21 @@ export default function GalleryLightbox(props: GalleryLightboxProps) {
   const [isHotspotHintVisible, setIsHotspotHintVisible] = useState(false);
   const [isHotspotHintDismissed, setIsHotspotHintDismissed] = useState(false);
 
+  const currentPictureIndexRef = useRef(props.initialPictureIndex);
   const closeButtonAnimationRef = useRef<AnimationPlaybackControls | null>(
     null
   );
+  const trackAnimationRef = useRef<AnimationPlaybackControls | null>(null);
   const closeHintTimeoutRef = useRef<number | null>(null);
   const hotspotHintTimeoutRef = useRef<number | null>(null);
 
   useEffect(() => {
     setCurrentPictureIndex(props.initialPictureIndex);
   }, [props.initialPictureIndex]);
+
+  useEffect(() => {
+    currentPictureIndexRef.current = currentPictureIndex;
+  }, [currentPictureIndex]);
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(pointer: fine)");
@@ -189,6 +197,59 @@ export default function GalleryLightbox(props: GalleryLightboxProps) {
     setIsHotspotHintVisible(false);
   }, [isHotspotHintDismissed, isLightboxHovered, isPointerFine]);
 
+  useEffect(() => {
+    const viewportElement = lightboxViewportRef.current;
+    const trackElement = lightboxTrackRef.current;
+
+    if (!viewportElement || !trackElement) {
+      return;
+    }
+
+    const targetX = -viewportElement.clientWidth * currentPictureIndex;
+
+    trackAnimationRef.current?.stop();
+    trackAnimationRef.current = animate(
+      trackElement,
+      { x: targetX },
+      {
+        type: "spring",
+        stiffness: 170,
+        damping: 24,
+        mass: 0.9,
+      }
+    );
+
+    return () => {
+      trackAnimationRef.current?.stop();
+    };
+  }, [currentPictureIndex]);
+
+  useEffect(() => {
+    function syncTrackPosition() {
+      const viewportElement = lightboxViewportRef.current;
+      const trackElement = lightboxTrackRef.current;
+
+      if (!viewportElement || !trackElement) {
+        return;
+      }
+
+      const targetX =
+        -viewportElement.clientWidth * currentPictureIndexRef.current;
+
+      trackAnimationRef.current?.stop();
+      trackElement.style.transform = `translateX(${targetX}px)`;
+    }
+
+    syncTrackPosition();
+    window.addEventListener("resize", syncTrackPosition);
+    window.visualViewport?.addEventListener("resize", syncTrackPosition);
+
+    return () => {
+      window.removeEventListener("resize", syncTrackPosition);
+      window.visualViewport?.removeEventListener("resize", syncTrackPosition);
+    };
+  }, []);
+
   function showPreviousPicture() {
     setIsHotspotHintVisible(false);
     setIsHotspotHintDismissed(true);
@@ -220,6 +281,7 @@ export default function GalleryLightbox(props: GalleryLightboxProps) {
       }}
     >
       <div
+        ref={lightboxViewportRef}
         className={styles.lightboxViewport}
         style={{ transform: `scale(${lightboxScaleCompensation})` }}
       >
@@ -244,8 +306,8 @@ export default function GalleryLightbox(props: GalleryLightboxProps) {
         </button>
 
         <div
+          ref={lightboxTrackRef}
           className={styles.lightboxTrack}
-          style={{ transform: `translateX(-${currentPictureIndex * 100}%)` }}
         >
           {props.picturePropsList.map((pictureProps, index) => (
             <div
