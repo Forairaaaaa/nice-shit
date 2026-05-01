@@ -168,12 +168,14 @@ export default function FramedPicture(props: FramedPictureProps) {
       onPointerUp={handlePointerUp}
       onPointerCancel={handlePointerUp}
     >
-      <img
-        src={props.imageSrc}
-        alt={"image about " + props.nameTag}
-        className={styles.framedPictureImage}
-        onClick={props.onClick}
-      ></img>
+      <div className={styles.framedPictureImageFrame}>
+        <img
+          src={props.imageSrc}
+          alt={"image about " + props.nameTag}
+          className={styles.framedPictureImage}
+          onClick={props.onClick}
+        ></img>
+      </div>
 
       <div className={styles.framedPictureCaption}>
         {props.nameTag && (
