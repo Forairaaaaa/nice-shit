@@ -6,73 +6,102 @@ import styles from "./styles.module.css";
 import { useState, useEffect } from "react";
 
 interface GalleryWallConfig {
-  backgroudImage: string;
+  backgroundImage: string;
   randomOrder: boolean;
   picturePropsList: FramedPictureProps[];
 }
 
-export default function PageGalleryWall() {
-  const [config, setConfig] = useState<GalleryWallConfig>({
-    backgroudImage: "",
-    randomOrder: false,
-    picturePropsList: [],
-  });
+interface GalleryWallConfigResponse {
+  backgroundImage?: string;
+  randomOrder?: boolean;
+  pictureList?: Array<{
+    imageSrc?: string;
+    nameTag?: string;
+    timeTag?: string;
+    href?: string;
+    rotate?: number;
+  }>;
+}
 
-  // Fetch config
-  function getGalleryWallConfig() {
-    fetch("/gallery-wall/gallery-wall-config.json")
-      .then((response) => response.json())
-      .then((data) => {
-        let result: GalleryWallConfig = {
-          backgroudImage: "",
-          randomOrder: false,
-          picturePropsList: [],
-        };
+const EMPTY_CONFIG: GalleryWallConfig = {
+  backgroundImage: "",
+  randomOrder: false,
+  picturePropsList: [],
+};
 
-        // Background image
-        if (data.backgroudImage != "" && data.backgroudImage) {
-          result.backgroudImage = data.backgroudImage;
-        }
+function shufflePictureList(list: FramedPictureProps[]) {
+  const shuffledList = [...list];
 
-        // Random order
-        if (data.randomOrder) {
-          result.randomOrder = data.randomOrder;
-        }
-
-        // Picture props list
-        (data.pictureList as FramedPictureProps[]).forEach((props) => {
-          result.picturePropsList.push({
-            imageSrc: props.imageSrc,
-            nameTag: props.nameTag,
-            timeTag: props.timeTag,
-            herf: props.herf,
-          });
-
-          // console.log(result);
-          setConfig(result);
-        });
-      });
+  for (let index = shuffledList.length - 1; index > 0; index -= 1) {
+    const swapIndex = Math.floor(Math.random() * (index + 1));
+    [shuffledList[index], shuffledList[swapIndex]] = [
+      shuffledList[swapIndex],
+      shuffledList[index],
+    ];
   }
-  useEffect(() => {
-    getGalleryWallConfig();
-  }, []);
 
-  // Shuffle for random order
-  const shuffle = (array: FramedPictureProps[]) => {
-    for (let i = array.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [array[i], array[j]] = [array[j], array[i]];
-    }
-    return array;
+  return shuffledList;
+}
+
+function normalizeGalleryWallConfig(
+  data: GalleryWallConfigResponse
+): GalleryWallConfig {
+  const picturePropsList = (data.pictureList ?? [])
+    .filter((picture) => picture.imageSrc)
+    .map((picture) => ({
+      imageSrc: picture.imageSrc as string,
+      nameTag: picture.nameTag ?? "",
+      timeTag: picture.timeTag ?? "",
+      href: picture.href ?? "",
+      rotate: picture.rotate,
+    }));
+
+  return {
+    backgroundImage: data.backgroundImage ?? "",
+    randomOrder: Boolean(data.randomOrder),
+    picturePropsList: data.randomOrder
+      ? shufflePictureList(picturePropsList)
+      : picturePropsList,
   };
-  if (config.randomOrder) {
-    config.picturePropsList = shuffle(config.picturePropsList);
-  }
+}
+
+export default function PageGalleryWall() {
+  const [config, setConfig] = useState<GalleryWallConfig>(EMPTY_CONFIG);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    async function getGalleryWallConfig() {
+      try {
+        const response = await fetch("/gallery-wall/gallery-wall-config.json");
+        const data = (await response.json()) as GalleryWallConfigResponse;
+
+        if (isMounted) {
+          setConfig(normalizeGalleryWallConfig(data));
+        }
+      } catch (error) {
+        console.error("Failed to load gallery wall config", error);
+
+        if (isMounted) {
+          setConfig(EMPTY_CONFIG);
+        }
+      }
+    }
+
+    getGalleryWallConfig();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   return (
     <div
-      className={
-        styles.background + " bg-[url('" + config.backgroudImage + "')]"
+      className={styles.background}
+      style={
+        config.backgroundImage
+          ? { backgroundImage: `url(${config.backgroundImage})` }
+          : undefined
       }
     >
       <div className={styles.backgroundNoiseFilter}>

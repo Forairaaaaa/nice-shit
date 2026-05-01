@@ -9,10 +9,10 @@ const nameTagFont = Oswald({ subsets: ["latin"] });
 export interface FramedPictureProps {
   onClick?: () => void;
   imageSrc: string;
-  nameTag: string;
-  timeTag: string;
+  nameTag?: string;
+  timeTag?: string;
   rotate?: number;
-  herf?: string;
+  href?: string;
 }
 
 export default function FramedPicture(props: FramedPictureProps) {
@@ -47,7 +47,7 @@ export default function FramedPicture(props: FramedPictureProps) {
         whileTap={{ scale: 1 }}
       ></motion.img>
 
-      {props.nameTag != "" && (
+      {props.nameTag && (
         <h1
           className={nameTagFont.className + " " + styles.framedPictureNameTag}
         >
@@ -55,7 +55,7 @@ export default function FramedPicture(props: FramedPictureProps) {
         </h1>
       )}
 
-      {props.timeTag != "" && (
+      {props.timeTag && (
         <p
           className={nameTagFont.className + " " + styles.framedPictureTimeTag}
         >

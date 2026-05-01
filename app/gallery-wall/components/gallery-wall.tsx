@@ -18,8 +18,8 @@ export default function GalleryWall(props: GalleryWallProps) {
           rotate={props.rotate}
           onClick={() => {
             // Redirect
-            if (props.herf != "" && props.herf) {
-              window.open(props.herf, "_blank");
+            if (props.href) {
+              window.open(props.href, "_blank");
             } else {
               window.open(props.imageSrc, "_blank");
             }
