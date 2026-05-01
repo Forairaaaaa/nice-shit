@@ -15,6 +15,7 @@ export interface FramedPictureProps {
   rotate?: number;
   href?: string;
   isDraggable?: boolean;
+  isRotatable?: boolean;
 }
 
 export default function FramedPicture(props: FramedPictureProps) {
@@ -30,12 +31,19 @@ export default function FramedPicture(props: FramedPictureProps) {
     originY: 0,
     didMove: false,
   });
+  const rotateStateRef = useRef({
+    startAngle: 0,
+    originRotation: 0,
+  });
   const [isInView, setIsInView] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
+  const [isRotating, setIsRotating] = useState(false);
   const [position, setPosition] = useState({ x: 0, y: 0 });
-  const [rotation] = useState(() => props.rotate ?? getRandom(-5, 5));
+  const [rotation, setRotation] = useState(() => props.rotate ?? getRandom(-5, 5));
+  const rotationRef = useRef(rotation);
   const isDraggable = props.isDraggable ?? true;
+  const isRotatable = props.isRotatable ?? true;
 
   function getRandom(min: number, max: number): number {
     return Math.random() * (max - min) + min;
@@ -85,6 +93,14 @@ export default function FramedPicture(props: FramedPictureProps) {
   }, [position]);
 
   useEffect(() => {
+    rotationRef.current = rotation;
+  }, [rotation]);
+
+  useEffect(() => {
+    if (isRotating) {
+      return;
+    }
+
     const targetScale = isInView ? (isHovered ? 1.05 : 1) : 0.7;
     const targetRotation = isInView ? rotation : 0;
 
@@ -116,10 +132,24 @@ export default function FramedPicture(props: FramedPictureProps) {
     return () => {
       stopAnimations();
     };
-  }, [isHovered, isInView, rotation]);
+  }, [isHovered, isInView, isRotating, rotation]);
+
+  function getAngleFromCenter(clientX: number, clientY: number) {
+    const element = pictureRef.current;
+
+    if (!element) {
+      return 0;
+    }
+
+    const bounds = element.getBoundingClientRect();
+    const centerX = bounds.left + bounds.width / 2;
+    const centerY = bounds.top + bounds.height / 2;
+
+    return Math.atan2(clientY - centerY, clientX - centerX) * (180 / Math.PI);
+  }
 
   function handlePointerDown(event: React.PointerEvent<HTMLDivElement>) {
-    if (!isDraggable) {
+    if (!isDraggable || isRotating) {
       return;
     }
 
@@ -136,7 +166,7 @@ export default function FramedPicture(props: FramedPictureProps) {
   }
 
   function handlePointerMove(event: React.PointerEvent<HTMLDivElement>) {
-    if (!isDraggable || !isDragging) {
+    if (!isDraggable || !isDragging || isRotating) {
       return;
     }
 
@@ -157,7 +187,7 @@ export default function FramedPicture(props: FramedPictureProps) {
   }
 
   function handlePointerUp(event: React.PointerEvent<HTMLDivElement>) {
-    if (!isDraggable) {
+    if (!isDraggable || isRotating) {
       return;
     }
 
@@ -180,6 +210,57 @@ export default function FramedPicture(props: FramedPictureProps) {
     }
   }
 
+  function handleRotatePointerDown(event: React.PointerEvent<HTMLButtonElement>) {
+    if (!isRotatable) {
+      return;
+    }
+
+    event.stopPropagation();
+    event.currentTarget.setPointerCapture(event.pointerId);
+    stopAnimations();
+
+    rotateStateRef.current = {
+      startAngle: getAngleFromCenter(event.clientX, event.clientY),
+      originRotation: rotationRef.current,
+    };
+
+    setIsRotating(true);
+    setIsHovered(false);
+  }
+
+  function handleRotatePointerMove(event: React.PointerEvent<HTMLButtonElement>) {
+    if (!isRotatable || !isRotating) {
+      return;
+    }
+
+    event.stopPropagation();
+
+    const nextRotation =
+      rotateStateRef.current.originRotation +
+      (getAngleFromCenter(event.clientX, event.clientY) -
+        rotateStateRef.current.startAngle);
+
+    rotationRef.current = nextRotation;
+    animationStateRef.current.rotation = nextRotation;
+    applyTransform();
+  }
+
+  function handleRotatePointerUp(event: React.PointerEvent<HTMLButtonElement>) {
+    if (!isRotatable) {
+      return;
+    }
+
+    event.stopPropagation();
+
+    if (event.currentTarget.hasPointerCapture(event.pointerId)) {
+      event.currentTarget.releasePointerCapture(event.pointerId);
+    }
+
+    setRotation(rotationRef.current);
+    setIsRotating(false);
+    setIsHovered(true);
+  }
+
   return (
     <div
       ref={pictureRef}
@@ -196,6 +277,24 @@ export default function FramedPicture(props: FramedPictureProps) {
       onPointerUp={handlePointerUp}
       onPointerCancel={handlePointerUp}
     >
+      {isRotatable && (
+        <button
+          type="button"
+          aria-label="Rotate photo from bottom right corner"
+          className={
+            styles.framedPictureRotateHandle +
+            " " +
+            styles.framedPictureRotateHandleBottomRight +
+            " " +
+            (isRotating ? styles.framedPictureRotateHandleActive : "")
+          }
+          onPointerDown={handleRotatePointerDown}
+          onPointerMove={handleRotatePointerMove}
+          onPointerUp={handleRotatePointerUp}
+          onPointerCancel={handleRotatePointerUp}
+        ></button>
+      )}
+
       <div className={styles.framedPictureImageFrame}>
         <img
           src={props.imageSrc}

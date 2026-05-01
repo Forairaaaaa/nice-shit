@@ -41,6 +41,57 @@
   cursor: default;
 }
 
+.framedPictureRotateHandle {
+  position: absolute;
+  z-index: 3;
+  width: 3rem;
+  height: 3rem;
+  border: 0;
+  background: transparent;
+  opacity: 0;
+  transition: opacity 180ms ease;
+}
+
+.framedPictureRotateHandle::before,
+.framedPictureRotateHandle::after {
+  content: "";
+  position: absolute;
+  background: rgb(117, 117, 117);
+  border-radius: 999px;
+}
+
+.framedPictureRotateHandle::before {
+  width: 0.24rem;
+  height: 1rem;
+}
+
+.framedPictureRotateHandle::after {
+  width: 1rem;
+  height: 0.24rem;
+}
+
+.framedPictureRotateHandleBottomRight {
+  right: -1.0rem;
+  bottom: -1.0rem;
+  cursor: nwse-resize;
+}
+
+.framedPictureRotateHandleBottomRight:hover,
+.framedPictureRotateHandleBottomRight:focus-visible,
+.framedPictureRotateHandleActive {
+  opacity: 1;
+}
+
+.framedPictureRotateHandleBottomRight::before {
+  right: 0.45rem;
+  bottom: 0.45rem;
+}
+
+.framedPictureRotateHandleBottomRight::after {
+  right: 0.45rem;
+  bottom: 0.45rem;
+}
+
 .framedPictureImage {
   max-height: 300px;
   display: block;
