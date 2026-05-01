@@ -1,9 +1,10 @@
 "use client";
 
-import { FramedPictureProps } from "./components/framed-picture";
+import { useEffect, useState } from "react";
 import GalleryWall from "./components/gallery-wall";
+import type { FramedPictureProps } from "./components/framed-picture";
+import SettingsDrawer from "./components/settings-drawer";
 import styles from "./styles.module.css";
-import { useState, useEffect } from "react";
 
 interface GalleryWallConfig {
   backgroundImage: string;
@@ -67,6 +68,10 @@ function normalizeGalleryWallConfig(
 
 export default function PageGalleryWall() {
   const [config, setConfig] = useState<GalleryWallConfig>(EMPTY_CONFIG);
+  const [displayedPictures, setDisplayedPictures] = useState<FramedPictureProps[]>(
+    []
+  );
+  const [isRandomOrderEnabled, setIsRandomOrderEnabled] = useState(false);
 
   useEffect(() => {
     let isMounted = true;
@@ -75,15 +80,20 @@ export default function PageGalleryWall() {
       try {
         const response = await fetch("/gallery-wall/gallery-wall-config.json");
         const data = (await response.json()) as GalleryWallConfigResponse;
+        const normalizedConfig = normalizeGalleryWallConfig(data);
 
         if (isMounted) {
-          setConfig(normalizeGalleryWallConfig(data));
+          setConfig(normalizedConfig);
+          setIsRandomOrderEnabled(normalizedConfig.randomOrder);
+          setDisplayedPictures(normalizedConfig.picturePropsList);
         }
       } catch (error) {
         console.error("Failed to load gallery wall config", error);
 
         if (isMounted) {
           setConfig(EMPTY_CONFIG);
+          setIsRandomOrderEnabled(false);
+          setDisplayedPictures([]);
         }
       }
     }
@@ -95,6 +105,14 @@ export default function PageGalleryWall() {
     };
   }, []);
 
+  useEffect(() => {
+    setDisplayedPictures(
+      isRandomOrderEnabled
+        ? shufflePictureList(config.picturePropsList)
+        : config.picturePropsList
+    );
+  }, [config.picturePropsList, isRandomOrderEnabled]);
+
   return (
     <div
       className={styles.background}
@@ -104,8 +122,14 @@ export default function PageGalleryWall() {
           : undefined
       }
     >
+      <SettingsDrawer
+        photoCount={config.picturePropsList.length}
+        isRandomOrderEnabled={isRandomOrderEnabled}
+        onRandomOrderChange={setIsRandomOrderEnabled}
+      />
+
       <div className={styles.backgroundNoiseFilter}>
-        <GalleryWall picturePropsList={config.picturePropsList}></GalleryWall>
+        <GalleryWall picturePropsList={displayedPictures}></GalleryWall>
       </div>
     </div>
   );
