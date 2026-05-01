@@ -80,9 +80,7 @@ function normalizeGalleryWallConfig(
   return {
     backgroundImage: data.backgroundImage ?? "",
     randomOrder: Boolean(data.randomOrder),
-    picturePropsList: data.randomOrder
-      ? shufflePictureList(picturePropsList)
-      : picturePropsList,
+    picturePropsList,
   };
 }
 
@@ -148,7 +146,11 @@ export default function PageGalleryWall() {
           setConfig(normalizedConfig);
           setIsRandomOrderEnabled(normalizedConfig.randomOrder);
           setIsReverseOrderEnabled(false);
-          setDisplayedPictures(normalizedConfig.picturePropsList);
+          setDisplayedPictures(
+            normalizedConfig.randomOrder
+              ? shufflePictureList(normalizedConfig.picturePropsList)
+              : normalizedConfig.picturePropsList
+          );
         }
       } catch (error) {
         console.error("Failed to load gallery wall config", error);
